@@ -165,6 +165,7 @@ function showMessage() {
     `;
 
     document.body.appendChild(timeline);
+    window.scrollTo(0, 0);
 }
 function showFinal() {
     document.querySelector(".timeline-section").remove();
