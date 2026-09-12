@@ -1,195 +1,455 @@
-function openSurprise() {
-    document.querySelector(".welcome").style.display = "none";
+let currentQuestion = 0;
+let nextAfterQuiz = null;
 
-    const surprise = document.createElement("div");
-    surprise.className = "surprise";
+const questions = [
+    {
+        question: "Gdje smo išli za prvi dejt? 💜",
+        answers: [
+            "Do grada",
+            "Na kafu",
+            "Vozali se do Branjeva",
+            "Vozali se do Pilice"
+        ],
+        correct: 3
+    },
 
-    surprise.innerHTML = `
-        <h1>Za najlepšu devojku 💜</h1>
-        <p>Ovo sam napravio samo za tebe...</p>
-        <p class="small-text">I ovo je tek početak. 💜</p>
-        <button onclick="showGallery()">Nastavi 💜</button>
+    {
+        question: "U koliko sati smo se prvi put poljubili? 💋",
+        answers: [
+            "00:31",
+            "00:28",
+            "00:38",
+            "00:22"
+        ],
+        correct: 1
+    },
+
+    {
+        question: "Kada nam je godišnjica? 💜",
+        answers: [
+            "25. decembar",
+            "21. decembar",
+            "22. decembar",
+            "27. decembar"
+        ],
+        correct: 2
+    },
+
+    {
+        question: "Da li me voliš? 🥰",
+        answers: [
+            "DA 💜",
+            "DA, NARAVNO 💜"
+        ],
+        correct: -1
+    }
+];
+
+
+// ===============================
+// KVIZ
+// ===============================
+
+function showQuiz(nextFunction) {
+
+    nextAfterQuiz = nextFunction;
+
+    document.body.innerHTML = `
+        <div class="quiz-page">
+
+            <div class="cute-top">
+                🐱 💜 🌸 🌷 💜 🐱
+            </div>
+
+            <div class="quiz-card">
+
+                <div class="cute-characters">
+                    🧽 ⭐
+                </div>
+
+                <h1>Pitanje za moju ljubav 💜</h1>
+
+                <p class="quiz-question">
+                    ${questions[currentQuestion].question}
+                </p>
+
+                <div class="answers">
+
+                    ${questions[currentQuestion].answers.map((answer, index) => `
+                        <button
+                            class="answer-button"
+                            onclick="checkAnswer(${index})">
+                            ${answer}
+                        </button>
+                    `).join("")}
+
+                </div>
+
+                <p id="quiz-result"></p>
+
+                <div class="flowers">
+                    🌸 🌷 🌸
+                </div>
+
+            </div>
+
+        </div>
     `;
-
-    document.body.appendChild(surprise);
 }
+
+
+function checkAnswer(answerIndex) {
+
+    const q = questions[currentQuestion];
+    const result = document.getElementById("quiz-result");
+
+    if (q.correct === -1) {
+
+        result.innerHTML = "TAČNOOOO! Znao sam. 😂💜";
+
+        document.querySelectorAll(".answer-button").forEach(button => {
+            button.disabled = true;
+        });
+
+        setTimeout(() => {
+
+            currentQuestion++;
+
+            const next = nextAfterQuiz;
+
+            nextAfterQuiz = null;
+
+            if (next) {
+                next();
+            }
+
+        }, 900);
+
+        return;
+    }
+
+
+    if (answerIndex === q.correct) {
+
+        result.innerHTML = "Tačno! 💜🥰";
+
+        document.querySelectorAll(".answer-button").forEach(button => {
+            button.disabled = true;
+        });
+
+        setTimeout(() => {
+
+            currentQuestion++;
+
+            const next = nextAfterQuiz;
+
+            nextAfterQuiz = null;
+
+            if (next) {
+                next();
+            }
+
+        }, 900);
+
+    } else {
+
+        result.innerHTML = "Neee ljubavi 😂💜 Probaj ponovo!";
+    }
+}
+
+
+// ===============================
+// PRVO OTVARANJE
+// ===============================
+
+function openSurprise() {
+
+    currentQuestion = 0;
+
+    showQuiz(() => {
+        showFirstSurprise();
+    });
+}
+
+
+// ===============================
+// PRVO IZNENAĐENJE
+// ===============================
+
+function showFirstSurprise() {
+
+    document.body.innerHTML = `
+
+        <div class="surprise-page">
+
+            <div class="cute-top">
+                🐱 🌸 💜 🌷 🐱
+            </div>
+
+            <div class="surprise-card">
+
+                <div class="cute-characters">
+                    🧽 ⭐
+                </div>
+
+                <h1>Za najlepšu devojku 💜</h1>
+
+                <p>
+                    Ovo sam napravio samo za tebe...
+                    <br><br>
+                    I ovo je tek početak. 💜
+                </p>
+
+                <div class="flowers">
+                    🌸 🌷 🌸
+                </div>
+
+                <button onclick="startGalleryQuiz()">
+                    Nastavi 💜
+                </button>
+
+            </div>
+
+        </div>
+    `;
+}
+
+
+// ===============================
+// KVIZ 2
+// ===============================
+
+function startGalleryQuiz() {
+
+    showQuiz(() => {
+        showGallery();
+    });
+}
+
+
+// ===============================
+// GALERIJA
+// ===============================
 
 function showGallery() {
-    document.querySelector(".surprise").remove();
 
-    const gallery = document.createElement("div");
-    gallery.className = "gallery";
+    document.body.innerHTML = `
 
-    gallery.innerHTML = `
-        <h1>Naše uspomene 💜</h1>
-        <p>Neke od mojih omiljenih slika sa tobom.</p>
+        <div class="gallery-page">
 
-        <div class="photos">
-            <img src="images/foto 1.jpg" alt="Naša slika">
-            <img src="images/foto 2.jpg" alt="Naša slika">
-            <img src="images/foto 3.jpg" alt="Naša slika">
-            <img src="images/foto 4.jpg" alt="Naša slika">
-            <img src="images/foto 5.jpg" alt="Naša slika">
-<img src="images/foto 6.jpg" alt="Naša slika">
-<img src="images/foto 7.jpg" alt="Naša slika">
-<img src="images/foto 8.jpg" alt="Naša slika">
-<img src="images/foto 9.jpg" alt="Naša slika">
-<img src="images/foto 10.jpg" alt="Naša slika">
-<img src="images/foto 11.jpg" alt="Naša slika">
-<img src="images/foto 12.jpg" alt="Naša slika">
-<img src="images/foto 13.jpg" alt="Naša slika">
-<img src="images/foto 14.jpg" alt="Naša slika">
-<img src="images/foto 15.jpg" alt="Naša slika">
-<img src="images/foto 16.jpg" alt="Naša slika">
-<img src="images/foto 17.jpg" alt="Naša slika">
-<img src="images/foto 18.jpg" alt="Naša slika">
-<img src="images/foto 19.jpg" alt="Naša slika">
-<img src="images/foto 20.jpg" alt="Naša slika">
+            <div class="gallery-decoration">
+                🐱 🌸 🌷 💜 🌷 🌸 🐱
+            </div>
+
+            <h1>Naše uspomene 💜</h1>
+
+            <div class="gallery">
+
+                <img src="images/foto 1.jpg">
+                <img src="images/foto 2.jpg">
+                <img src="images/foto 3.jpg">
+                <img src="images/foto 4.jpg">
+                <img src="images/foto 5.jpg">
+                <img src="images/foto 6.jpg">
+                <img src="images/foto 7.jpg">
+                <img src="images/foto 8.jpg">
+                <img src="images/foto 9.jpg">
+                <img src="images/foto 10.jpg">
+                <img src="images/foto 11.jpg">
+                <img src="images/foto 12.jpg">
+                <img src="images/foto 13.jpg">
+                <img src="images/foto 14.jpg">
+                <img src="images/foto 15.jpg">
+                <img src="images/foto 16.jpg">
+                <img src="images/foto 17.jpg">
+                <img src="images/foto 18.jpg">
+                <img src="images/foto 19.jpg">
+                <img src="images/foto 20.jpg">
+
+            </div>
+
+            <div class="flowers">
+                🌸 🌷 💜 🌷 🌸
+            </div>
+
+            <button onclick="startTimelineQuiz()">
+                Nastavi 💜
+            </button>
+
         </div>
-
-        <button onclick="showMessage()">Nastavi 💜</button>
     `;
-
-    document.body.appendChild(gallery);
 }
 
+
+// ===============================
+// KVIZ 3
+// ===============================
+
+function startTimelineQuiz() {
+
+    showQuiz(() => {
+        showMessage();
+    });
+}
+
+
+// ===============================
+// NAŠA PRIČA
+// ===============================
+
 function showMessage() {
-    document.querySelector(".gallery").remove();
 
-    const timeline = document.createElement("div");
-    timeline.className = "timeline-section";
+    document.body.innerHTML = `
 
-    timeline.innerHTML = `
-        <h1>Naša priča 💜</h1>
-        <p class="timeline-intro">
-            Pogledaj koliko smo toga prošli zajedno...
-        </p>
+        <div class="timeline-page">
 
-        <div class="timeline">
+            <div class="timeline-decoration">
+                🐱 💜 🌸 🌷 🧽 ⭐
+            </div>
 
-            <div class="timeline-item">
-                <div class="timeline-date">Avgust 2020. 💜</div>
-                <div class="timeline-card">
-                    <h2>Prvi put 💜</h2>
+            <h1>Naša priča 💜</h1>
+
+            <div class="timeline">
+
+                <div class="timeline-item">
+                    <h2>Avgust 2020. 💜</h2>
                     <p>
                         Tada sam se prvi put zaljubio u tebe,
                         iako ti baš i nisi bila zaljubljena u mene hahahah.
                     </p>
                 </div>
-            </div>
 
-            <div class="timeline-item">
-                <div class="timeline-date">22. jun 2022. 💔</div>
-                <div class="timeline-card">
-                    <h2>Mislili smo da je kraj...</h2>
+                <div class="timeline-item">
+                    <h2>22. jun 2022. 💔</h2>
                     <p>
                         Posvađali smo se i mislili da je naša priča završena.
                     </p>
                 </div>
-            </div>
 
-            <div class="timeline-item">
-                <div class="timeline-date">Novembar 2023. 💜</div>
-                <div class="timeline-card">
-                    <h2>Ponovo zajedno</h2>
+                <div class="timeline-item">
+                    <h2>Novembar 2023. 💜</h2>
                     <p>
                         Pomirili smo se i htjeli da ostanemo prijatelji,
                         iako sam ja i dalje bio zaljubljen u tebe.
                     </p>
                 </div>
-            </div>
 
-            <div class="timeline-item">
-                <div class="timeline-date">8. februar 2025. 🎂</div>
-                <div class="timeline-card">
-                    <h2>Moja želja 💜</h2>
+                <div class="timeline-item">
+                    <h2>8. februar 2025. 🎂</h2>
                     <p>
                         Na mom punoljetstvu, dok sam duvao svjećice,
                         ostvarila mi se želja — a ta želja si bila ti.
                     </p>
                 </div>
-            </div>
 
-            <div class="timeline-item">
-                <div class="timeline-date">14. jun 2025. 💔</div>
-                <div class="timeline-card">
-                    <h2>Još jedan kraj...</h2>
+                <div class="timeline-item">
+                    <h2>14. jun 2025. 💔</h2>
                     <p>
                         Ponovo smo mislili da je sve gotovo...
                     </p>
                 </div>
-            </div>
 
-            <div class="timeline-item">
-                <div class="timeline-date">19. jul 2025. ❤️</div>
-                <div class="timeline-card">
-                    <h2>Naše stalno pričanje</h2>
+                <div class="timeline-item">
+                    <h2>19. jul 2025. ❤️</h2>
                     <p>
                         Počeli smo naše stalno pričanje,
                         ne znajući još gdje će nas sve to odvesti.
                     </p>
                 </div>
-            </div>
 
-            <div class="timeline-item special">
-                <div class="timeline-date">22. decembar 2025. 💜</div>
-                <div class="timeline-card">
-                    <h2>Najljepši dan mog života ❤️</h2>
+                <div class="timeline-item">
+                    <h2>22. decembar 2025. 💜</h2>
                     <p>
                         Smuvali smo se.
-                        Od tog dana smo zajedno i to je
-                        najljepši dan u mom životu.
+                        Od tog dana smo zajedno i to je najljepši dan
+                        u mom životu.
                     </p>
                 </div>
-            </div>
 
-            <div class="timeline-item future">
-                <div class="timeline-date">2026. 💜</div>
-                <div class="timeline-card">
-                    <h2>Nova epoha 💜</h2>
+                <div class="timeline-item">
+                    <h2>2026. 💜</h2>
                     <p>
-                        Od tada smo zajedno, a sada počinjemo
-                        potpuno novo poglavlje — zajedničko studiranje
-                        i zajednički život u Kopru.
+                        Od tada smo zajedno, a sada počinjemo potpuno novo
+                        poglavlje — zajedničko studiranje i zajednički život u Kopru.
                     </p>
-                    <p class="ending">
+
+                    <p>
                         Naša priča se ovdje ne završava...
                         ovdje tek počinje naše novo poglavlje. 💜
                     </p>
                 </div>
+
+            </div>
+
+            <button onclick="startLetterQuiz()">
+                Nastavi 💜
+            </button>
+
+        </div>
+    `;
+}
+
+
+// ===============================
+// KVIZ 4
+// ===============================
+
+function startLetterQuiz() {
+
+    showQuiz(() => {
+        showLetter();
+    });
+}
+
+
+// ===============================
+// PISMO
+// ===============================
+
+function showLetter() {
+
+    document.body.innerHTML = `
+
+        <div class="letter-page">
+
+            <div class="letter-decoration">
+                🌸 🐱 💜 🌷 🐱 🌸
+            </div>
+
+            <div class="letter-card">
+
+                <h1>Srećan rođendan, ljubavi 💜</h1>
+
+                <div id="typed-letter"></div>
+
+                <div class="flowers">
+                    🌸 🌷 💜 🌷 🌸
+                </div>
+
+                <button
+                    id="letter-button"
+                    style="display: none;"
+                    onclick="bigSurprise()">
+                    Pritisni me 💜
+                </button>
+
             </div>
 
         </div>
-
-        <button onclick="showFinal()">Nastavi 💜</button>
     `;
 
-    document.body.appendChild(timeline);
-    window.scrollTo(0, 0);
+    typeLetter();
 }
-function showFinal() {
-    document.querySelector(".timeline-section").remove();
 
-    const final = document.createElement("div");
-    final.className = "final-message";
 
-    final.innerHTML = `
-    <h1>Srećan rođendan, ljubavi 💜</h1>
+// ===============================
+// EFEKAT KUCANJA
+// ===============================
 
-    <div class="letter">
-        <p id="typed-text"></p>
-    </div>
+function typeLetter() {
 
-    <button id="secret-button" onclick="bigSurprise()">
-        Pritisni me 💜
-    </button>
-
-    <div id="hearts"></div>
-`;
-
-    document.body.appendChild(final);
-
-    const text = `Volim te. 💜
+    const letter = `
+Volim te. 💜
 
 Ne mogu da zamislim da sve ovo prolazim sa nekim drugim i stvarno mislim da naš najbolji period tek dolazi.
 
@@ -197,76 +457,121 @@ Ne mogu da zamislim da sve ovo prolazim sa nekim drugim i stvarno mislim da naš
 
 Želim da uvijek ostaneš tako nasmijana i srećna i da znaš da si najljepša djevojka na svijetu. 💜
 
-Srećan rođendan, ljubavi. 💜`;
+Srećan rođendan, ljubavi. 💜
+`;
 
-    let i = 0;
-    const typedText = document.getElementById("typed-text");
+    const container = document.getElementById("typed-letter");
 
-    function typeWriter() {
-        if (i < text.length) {
-            typedText.innerHTML += text.charAt(i) === "\n"
-                ? "<br><br>"
-                : text.charAt(i);
+    let index = 0;
 
-            i++;
-            setTimeout(typeWriter, 35);
+    function type() {
+
+        if (index < letter.length) {
+
+            const character = letter.charAt(index);
+
+            if (character === "\n") {
+                container.innerHTML += "<br>";
+            } else {
+                container.innerHTML += character;
+            }
+
+            index++;
+
+            setTimeout(type, 35);
+
         } else {
-            createHearts();
+
+            document.getElementById("letter-button").style.display = "inline-block";
         }
     }
 
-    typeWriter();
+    type();
 }
 
-function createHearts() {
-    const heartsContainer = document.getElementById("hearts");
 
-    for (let i = 0; i < 30; i++) {
-        const heart = document.createElement("div");
+// ===============================
+// KONAČNO IZNENAĐENJE
+// ===============================
 
-        heart.className = "heart";
-        heart.innerHTML = "💜";
-
-        heart.style.left = Math.random() * 100 + "%";
-        heart.style.animationDelay = Math.random() * 3 + "s";
-        heart.style.fontSize = (15 + Math.random() * 25) + "px";
-
-        heartsContainer.appendChild(heart);
-    }
-}
 function bigSurprise() {
-    const button = document.getElementById("secret-button");
 
-    button.style.display = "none";
+    document.body.innerHTML = `
 
-    const surprise = document.createElement("div");
-    surprise.className = "big-surprise";
+        <div class="ultimate-page">
 
-    surprise.innerHTML = `
-        <h1>Volim te, Marija 💜</h1>
-        <p>Za tebe, danas i svaki naredni dan. 💜</p>
+            <div class="ultimate-cats">
+                🐱 💜 🐱
+            </div>
 
-        <img src="images/foto 20.jpg" alt="Naša posebna slika">
+            <div class="ultimate-flowers">
+                🌸 🌷 🌸 🌷 🌸
+            </div>
 
-        <h2>Naša priča tek počinje... 💜</h2>
+            <div class="cartoon-friends">
+                🧽 ⭐
+            </div>
+
+            <h1>
+                VOLIM TE, MARIJA 💜
+            </h1>
+
+            <p class="ultimate-text">
+                Za tebe, danas i svaki naredni dan. 💜
+            </p>
+
+            <div class="ultimate-photo">
+
+                <img
+                    src="images/foto 20.jpg"
+                    alt="Naša fotografija">
+
+            </div>
+
+            <h2>
+                Naša priča tek počinje... 💜
+            </h2>
+
+            <p class="ultimate-small">
+                I jedva čekam sve što nas još čeka. 🥰
+            </p>
+
+            <div id="final-hearts"></div>
+
+        </div>
     `;
 
-    document.body.appendChild(surprise);
+    createFinalHearts();
+}
+
+
+// ===============================
+// LJUBIČASTA SRCA
+// ===============================
+
+function createFinalHearts() {
+
+    const container = document.getElementById("final-hearts");
+
+    if (!container) return;
 
     for (let i = 0; i < 80; i++) {
+
         const heart = document.createElement("div");
 
         heart.className = "big-heart";
+
         heart.innerHTML = "💜";
 
-        heart.style.left = Math.random() * 100 + "%";
-        heart.style.animationDelay = Math.random() * 2 + "s";
-        heart.style.fontSize = (15 + Math.random() * 35) + "px";
+        heart.style.left =
+            Math.random() * 100 + "%";
 
-        document.body.appendChild(heart);
+        heart.style.animationDelay =
+            Math.random() * 5 + "s";
 
-        setTimeout(() => {
-            heart.remove();
-        }, 5000);
+        heart.style.animationDuration =
+            (3 + Math.random() * 4) + "s";
+
+        container.appendChild(heart);
     }
 }
