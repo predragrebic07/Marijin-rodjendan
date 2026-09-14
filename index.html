@@ -1,19 +1,78 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Za moju Mariju 💜</title>
+
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-    <div class="welcome">
+<div id="page-transition"></div>
+
+<div class="floating-background">
+    <span>💜</span>
+    <span>✨</span>
+    <span>🌸</span>
+    <span>💜</span>
+    <span>🌷</span>
+    <span>✨</span>
+    <span>💜</span>
+    <span>🌸</span>
+    <span>✨</span>
+    <span>💜</span>
+</div>
+
+<div class="welcome page-content">
+
+    <img
+        class="welcome-character spongebob"
+        src="images/spongebob.png"
+        alt="SpongeBob">
+
+    <img
+        class="welcome-character patrick"
+        src="images/patrick.png"
+        alt="Patrick">
+
+    <img
+        class="corner-cat cat-left"
+        src="images/cat1.gif"
+        alt="Mačka">
+
+    <img
+        class="corner-cat cat-right"
+        src="images/cat2.gif"
+        alt="Mačka">
+
+    <div class="welcome-card">
+
+        <div class="sparkles">
+            ✨ 💜 ✨
+        </div>
+
         <h1>Za moju Mariju 💜</h1>
-        <button onclick="openSurprise()">Otvori iznenađenje 💌</button>
+
+        <p>
+            Jedno malo iznenađenje samo za tebe...
+        </p>
+
+        <button onclick="openSurprise()">
+            Otvori iznenađenje 💌
+        </button>
+
+        <div class="flowers">
+            🌸 🌷 🌸
+        </div>
+
     </div>
 
-    <script src="script.js"></script>
+</div>
+
+<script src="script.js"></script>
+
 </body>
 </html>
