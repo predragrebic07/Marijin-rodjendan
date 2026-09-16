@@ -1432,3 +1432,19 @@ button:active {
         margin-bottom: 60px;
     }
 }
+@media (max-width: 768px) {
+    .welcome-character,
+    .corner-cat,
+    .final-character,
+    .final-cat {
+        display: none;
+    }
+
+    .welcome-card,
+    .quiz-card,
+    .surprise-card,
+    .letter-card {
+        position: relative;
+        z-index: 5;
+    }
+}
