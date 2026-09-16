@@ -1433,18 +1433,48 @@ button:active {
     }
 }
 @media (max-width: 768px) {
+    /* Likovi su vidljivi, ali idu iza sadržaja. */
     .welcome-character,
     .corner-cat,
     .final-character,
     .final-cat {
-        display: none;
+        display: block;
+        z-index: 1;
+        pointer-events: none;
     }
 
+    .welcome-character {
+        width: 78px;
+        opacity: 0.8;
+    }
+
+    .corner-cat {
+        width: 38px;
+        opacity: 0.75;
+    }
+
+    /* Kartice i tekst uvijek su iznad likova. */
     .welcome-card,
     .quiz-card,
     .surprise-card,
-    .letter-card {
+    .letter-card,
+    .gallery-page > :not(.welcome-character):not(.corner-cat),
+    .timeline-page > :not(.welcome-character):not(.corner-cat),
+    .ultimate-page > :not(.final-character):not(.final-cat):not(#final-hearts) {
         position: relative;
         z-index: 5;
+    }
+
+    /* Mačkice prebacujemo uz donje bočne ivice. */
+    .cat-left {
+        top: auto;
+        bottom: 22%;
+        left: 5px;
+    }
+
+    .cat-right {
+        top: auto;
+        bottom: 34%;
+        right: 5px;
     }
 }
